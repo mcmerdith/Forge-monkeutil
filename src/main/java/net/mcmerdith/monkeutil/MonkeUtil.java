@@ -1,6 +1,9 @@
 package net.mcmerdith.monkeutil;
 
 import net.mcmerdith.monkeutil.core.enums.Keys;
+import net.mcmerdith.monkeutil.core.init.BlockInit;
+import net.mcmerdith.monkeutil.core.init.Initializer;
+import net.mcmerdith.monkeutil.core.init.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -12,6 +15,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Main class for mod
  * @author mcmerdith
@@ -20,7 +27,6 @@ import org.apache.logging.log4j.Logger;
  */
 @Mod(Keys.MODID)
 public class MonkeUtil {
-    // Instances
     /**
      * The Instance
      */
@@ -37,15 +43,27 @@ public class MonkeUtil {
     /**
      * System logger
      */
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    /**
+     * All initializers
+     */
+    public final List<Initializer<?>> initializers = new ArrayList<>(Arrays.asList(
+            new ItemInit(),
+            new BlockInit()
+    ));
 
     public MonkeUtil() {
         // Initialize this instance
         INSTANCE = this;
 
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         // Register the setup method for modloading
         eventBus.addListener(this::commonSetup);
+
+        initializers.forEach(initializer -> initializer.register(eventBus));
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
