@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "monkeutil:wireless_antenna"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:redstone_lamp"
+        }
+      ]
+    }
+  ]
+}

@@ -91,6 +91,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 processResources {
     exclude('**/*.psd')
+    exclude('**/*.bbmodel')
 }
 
 dependencies {

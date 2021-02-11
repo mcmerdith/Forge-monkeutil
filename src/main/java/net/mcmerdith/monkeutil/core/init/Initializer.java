@@ -1,18 +1,17 @@
 package net.mcmerdith.monkeutil.core.init;
 
-import net.mcmerdith.monkeutil.MonkeUtil;
 import net.mcmerdith.monkeutil.core.enums.Keys;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.function.Supplier;
 
-public abstract class Initializer<T extends net.minecraftforge.registries.IForgeRegistryEntry<T>> {
-    private final DeferredRegister<T> REGISTER;
+public abstract class Initializer<T extends net.minecraftforge.registries.IForgeRegistryEntry<T>, V> {
+    public final DeferredRegister<T> REGISTER;
 
-    public Initializer(IForgeRegistry<T> registry) {
-        MonkeUtil.LOGGER.info("{} Registered", registry.getRegistryName());
+    protected Initializer(IForgeRegistry<T> registry) {
         this.REGISTER = DeferredRegister.create(registry, Keys.MODID);
     }
 
@@ -20,9 +19,17 @@ public abstract class Initializer<T extends net.minecraftforge.registries.IForge
         REGISTER.register(bus);
     }
 
-    protected final <I extends T> void add(String name, Supplier<? extends I> supplier) {
-        REGISTER.register(name, supplier);
+    protected final RegistryObject<T> registerFactory(String name, V factoryargs) {
+        return registerRaw(name, factory(factoryargs));
     }
 
-    abstract <I extends T> Supplier<? extends I> factory();
+    protected final <I extends T> RegistryObject<I> registerSpecial(String name, Supplier<? extends I> factory) {
+        return REGISTER.register(name, factory);
+    }
+
+    protected final <I extends T> RegistryObject<T> registerRaw(String name, Supplier<? extends I> supplier) {
+        return REGISTER.register(name, supplier);
+    }
+
+    abstract protected Supplier<T> factory(V arg);
 }

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "powered=true": { "model": "monkeutil:block/wireless_lamp_on" },
+    "powered=false": { "model":  "monkeutil:block/wireless_lamp"}
+  }
+}

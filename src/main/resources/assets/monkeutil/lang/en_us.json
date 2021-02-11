@@ -1,3 +1,9 @@
 {
-  "item.monkeutil.remote_control": "Remote Control"
+  "item.monkeutil.remote_control": "Remote Control",
+  "item.monkeutil.wireless_antenna": "Wireless Antenna",
+  "block.monkeutil.wireless_lamp": "Wireless Redstone Lamp",
+  "tooltip.monkeutil.remote_control.description": "Control networks of wireless devices",
+  "screen.monkeutil.remote_control": "Remote Control",
+  "screen.monkeutil.button.test": "Test Button",
+  "itemGroup.monkeutiltab": "Monke Util"
 }
