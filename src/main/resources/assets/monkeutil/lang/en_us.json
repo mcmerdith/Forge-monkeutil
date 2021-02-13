@@ -3,7 +3,13 @@
   "item.monkeutil.wireless_antenna": "Wireless Antenna",
   "block.monkeutil.wireless_lamp": "Wireless Redstone Lamp",
   "tooltip.monkeutil.remote_control.description": "Control networks of wireless devices",
+  "tooltip.monkeutil.remote_control.help": "Sneak + Right Click on a wireless block to modify it's settings",
+  "tooltip.monkeutil.remote_control.help2": "Sneak + Right Click to modify settings",
   "screen.monkeutil.remote_control": "Remote Control",
+  "screen.monkeutil.network_id": "Network ID",
   "screen.monkeutil.button.test": "Test Button",
+  "screen.monkeutil.button.save": "Save",
+  "placeholder.monkeutil.network_id": "Network ID",
+  "string.monkeutil.invalid_network_id": "Invalid Network ID",
   "itemGroup.monkeutiltab": "Monke Util"
 }

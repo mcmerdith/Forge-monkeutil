@@ -10,26 +10,39 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.function.ToIntFunction;
 
+/**
+ * A block capable of receiving Redstone Power
+ *
+ * @author mcmerdith
+ * @version 1.0
+ * @since 1.0
+ */
 public class BasePowerableBlock extends Block {
 
+    /**
+     * Create a new powerable block
+     *
+     * @param properties The properties to initialize this block with
+     * @apiNote {@link BlockStateProperties#POWERED} will be added automatically
+     */
     public BasePowerableBlock(AbstractBlock.Properties properties) {
         super(properties);
         this.setDefaultState(this.getStateContainer().getBaseState().with(BlockStateProperties.POWERED, false));
-
-        LOGGER.info("Created Powerable Block");
     }
 
-    static ToIntFunction<BlockState> illumination() {
-        return (state) -> state.get(BlockStateProperties.POWERED) ? 15 : 0;
-    }
-
+    /**
+     * Get the default properties
+     */
     @Nullable
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(BlockStateProperties.POWERED, context.getWorld().isBlockPowered(context.getPos()));
     }
 
+    /**
+     * Check if the block is receiving power when a neighboring block changes state
+     */
+    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         if (!worldIn.isRemote) {
@@ -41,6 +54,9 @@ public class BasePowerableBlock extends Block {
         }
     }
 
+    /**
+     * Register the default properties
+     */
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);

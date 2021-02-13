@@ -8,6 +8,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
+/**
+ * Register this mods blocks
+ *
+ * @author mcmerdith
+ * @version 1.0
+ * @since 1.0
+ */
 public class BlockInit extends Initializer<Block, AbstractBlock.Properties> {
     public final RegistryObject<WirelessLampBlock> WIRELESS_LAMP;
 

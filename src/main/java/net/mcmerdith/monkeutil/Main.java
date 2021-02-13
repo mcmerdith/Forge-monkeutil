@@ -4,6 +4,8 @@ import net.mcmerdith.monkeutil.core.enums.Keys;
 import net.mcmerdith.monkeutil.core.init.BlockInit;
 import net.mcmerdith.monkeutil.core.init.ContainerTypeInit;
 import net.mcmerdith.monkeutil.core.init.ItemInit;
+import net.mcmerdith.monkeutil.core.init.TileEntityTypeInit;
+import net.mcmerdith.monkeutil.core.networking.NetworkManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -28,18 +30,18 @@ import org.apache.logging.log4j.Logger;
  * @since 1.0
  */
 @Mod(Keys.MODID)
-public class MonkeUtil {
+public class Main {
     /**
      * The Instance
      */
-    private static MonkeUtil INSTANCE;
+    private static Main INSTANCE;
 
     /**
      * Get the Main instance
      *
      * @return The current instance of this class
      */
-    public static MonkeUtil getInstance() {
+    public static Main getInstance() {
         return INSTANCE;
     }
 
@@ -54,13 +56,14 @@ public class MonkeUtil {
     public final ItemInit ITEMS = new ItemInit();
     public final BlockInit BLOCKS = new BlockInit();
     public final ContainerTypeInit CONTAINERS = new ContainerTypeInit();
+    public final TileEntityTypeInit TILEENTITIES = new TileEntityTypeInit();
 
     /**
      * Item Group
      */
     public static ItemGroup ITEM_GROUP = new MonkeUtilGroup();
 
-    public MonkeUtil() {
+    public Main() {
         // Initialize this instance
         INSTANCE = this;
 
@@ -69,9 +72,12 @@ public class MonkeUtil {
         // Register the setup method for modloading
         eventBus.addListener(this::commonSetup);
 
+        NetworkManager.get();
+
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         CONTAINERS.register(eventBus);
+        TILEENTITIES.register(eventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -97,10 +103,10 @@ public class MonkeUtil {
     public static class RegistryEvents {
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
-            ItemInit init = MonkeUtil.getInstance().ITEMS;
-            MonkeUtil.getInstance().BLOCKS.REGISTER.getEntries().forEach(obj -> {
+            ItemInit init = Main.getInstance().ITEMS;
+            Main.getInstance().BLOCKS.REGISTER.getEntries().forEach(obj -> {
                 if (!obj.isPresent()) {
-                    MonkeUtil.LOGGER.error("Registering BlockItem failed (registry object not present)");
+                    Main.LOGGER.error("Registering BlockItem failed (registry object not present)");
                     return;
                 }
 
@@ -108,11 +114,11 @@ public class MonkeUtil {
 
                 final ResourceLocation resource = block.getRegistryName();
                 if (resource == null) {
-                    MonkeUtil.LOGGER.error("Registering BlockItem failed! (no registry name)");
+                    Main.LOGGER.error("Registering BlockItem failed! (no registry name)");
                     return;
                 }
 
-                BlockItem item = new BlockItem(block, new Item.Properties().group(MonkeUtil.ITEM_GROUP));
+                BlockItem item = new BlockItem(block, new Item.Properties().group(Main.ITEM_GROUP));
                 item.setRegistryName(resource.toString());
 
                 event.getRegistry().register(item);
@@ -127,7 +133,7 @@ public class MonkeUtil {
 
         @Override
         public ItemStack createIcon() {
-            return MonkeUtil.getInstance().ITEMS.REMOTE_CONTROL.get().getDefaultInstance();
+            return Main.getInstance().ITEMS.REMOTE_CONTROL.get().getDefaultInstance();
         }
     }
 }

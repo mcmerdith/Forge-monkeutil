@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XYX",
+    " Z "
+  ],
+  "key": {
+    "X": {
+      "item": "monkeutil:copper_coil"
+    },
+    "Y": {
+      "tag": "forge:dusts/redstone"
+    },
+    "Z": {
+      "tag": "forge:ingots/iron"
+    }
+  }
+}
